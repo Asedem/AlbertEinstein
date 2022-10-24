@@ -1,5 +1,7 @@
 import sys
+
 import pygame
+
 from custom import Sprite
 
 # Insert the important global variables
@@ -147,7 +149,6 @@ hitler.figure.center = SCREEN_CENTER
 running2 = True
 
 while running2:
-
     movement()
 
     draw_background_rect()
