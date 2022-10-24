@@ -62,6 +62,19 @@ def display_continue_text():
                  (SCREEN_CENTER_Y - continue_text.get_height() / 2) + 300))
 
 
+def display_year(year):
+
+    display_text = font.render('Jahr: ' + str(year), True, TEXT_COLOR)
+
+    draw_background_rect()
+    screen.blit(display_text,
+                (SCREEN_CENTER_X - display_text.get_width() / 2, SCREEN_CENTER_Y - display_text.get_height() / 2))
+
+    display_continue_text()
+    pygame.display.update()
+    wait_until_space()
+
+
 # Init the Pygame Python library that is used for the UI
 
 pygame.init()
@@ -86,14 +99,7 @@ pygame.display.flip()
 
 # Display the number of the current Year
 
-text = font.render('Jahr: 1922', True, TEXT_COLOR)
-screen.blit(text, (EINSTEIN_POS_X - text.get_width() / 2, EINSTEIN_POS_Y - text.get_height() / 2))
-
-display_continue_text()
-
-pygame.display.update()
-
-wait_until_space()
+display_year(1922)
 
 # Create the Sprite for Albert Einstein
 
@@ -138,6 +144,10 @@ screen.blit(speach_image, speach_sprite)
 pygame.display.update()
 
 wait_until_space()
+
+# Display the number of the current Year
+
+display_year(1933)
 
 # Display the Sprite for Adolf Hitler
 
