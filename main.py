@@ -90,6 +90,9 @@ while running2:
     screen.blit(einstein_image, einstein_sprite)
     pygame.display.update()
 
+    text = font.render('Schreibe einen Brief an deine kleine Schwester', True, TEXT_COLOR)
+    screen.blit(text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
+
     if einstein_sprite.colliderect(letter_sprite):
         running2 = False
 
