@@ -1,9 +1,11 @@
+import sys
 import pygame
+from custom import Sprite
 
 # Insert the important global variables
 
 FPS = 240
-SPEED = 3
+SPEED = 10
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (800, 800)
 FIGURE_SIZE = FIGURE_WIDTH, FIGURE_HEIGHT = (100, 100)
 TEXT_COLOR = (27, 27, 27)
@@ -13,14 +15,64 @@ CAPTION = 'Albert Einstein zur Zeit des dritten Reiches'
 SCREEN_CENTER = SCREEN_CENTER_X, SCREEN_CENTER_Y = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 EINSTEIN_POSITION = EINSTEIN_POS_X, EINSTEIN_POS_Y = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
+
+def movement():
+    global EINSTEIN_POS_X
+    global EINSTEIN_POS_Y
+
+    for eve in pygame.event.get():
+        if eve.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit(0)
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a] and EINSTEIN_POS_X - SPEED > 0 + FIGURE_WIDTH / 2:
+            EINSTEIN_POS_X -= SPEED
+        elif keys[pygame.K_d] and EINSTEIN_POS_X + SPEED < SCREEN_WIDTH - FIGURE_WIDTH / 2:
+            EINSTEIN_POS_X += SPEED
+
+        if keys[pygame.K_w] and EINSTEIN_POS_Y - SPEED > 0 + FIGURE_HEIGHT / 2:
+            EINSTEIN_POS_Y -= SPEED
+        elif keys[pygame.K_s] and EINSTEIN_POS_Y + SPEED < SCREEN_HEIGHT - FIGURE_HEIGHT / 2:
+            EINSTEIN_POS_Y += SPEED
+
+
+def wait_until_space():
+    running = True
+
+    while running:
+        for eve in pygame.event.get():
+            if eve.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit(0)
+            if eve.type == pygame.KEYDOWN and eve.key == pygame.K_SPACE:
+                running = False
+
+
+def draw_background_rect():
+    pygame.draw.rect(screen, BACKGROUND_COLOR, (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
+def display_continue_text():
+    screen.blit(continue_text,
+                (SCREEN_CENTER_X - continue_text.get_width() / 2,
+                 (SCREEN_CENTER_Y - continue_text.get_height() / 2) + 300))
+
+
 # Init the Pygame Python library that is used for the UI
 
 pygame.init()
 fps_clock = pygame.time.Clock()
 
+# Creation of the continue text
+
+font = pygame.font.Font(pygame.font.get_default_font(), 36)
+continue_text = font.render('Drücke LEERTASTE um fortzufahren:', True, TEXT_COLOR)
+
 # Set the icon of the application
 
-icon = pygame.image.load('images/AlbertEinstein.png')
+icon = pygame.image.load('images/Formel.png')
 pygame.display.set_icon(icon)
 
 # Create the Window that displays the Game
@@ -32,129 +84,80 @@ pygame.display.flip()
 
 # Display the number of the current Year
 
-font = pygame.font.Font(pygame.font.get_default_font(), 36)
-
 text = font.render('Jahr: 1922', True, TEXT_COLOR)
 screen.blit(text, (EINSTEIN_POS_X - text.get_width() / 2, EINSTEIN_POS_Y - text.get_height() / 2))
 
-continue_text = font.render('Drücke LEHRTASTE um fortzufahren:', True, TEXT_COLOR)
-screen.blit(continue_text, (SCREEN_CENTER_X - continue_text.get_width() / 2, (SCREEN_CENTER_Y - continue_text.get_height() / 2) + 300))
+display_continue_text()
 
 pygame.display.update()
+
+wait_until_space()
+
+# Create the Sprite for Albert Einstein
+
+einstein = Sprite('images/AlbertEinstein.png', FIGURE_SIZE)
+einstein.figure.center = EINSTEIN_POSITION
+
+# Einsteins letter to his little Sister
+
+letter = Sprite('images/Letter.png', tuple(item // 1.5 for item in FIGURE_SIZE))
+letter.figure.center = FIGURE_SIZE
 
 running1 = True
 
 while running1:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            running1 = False
 
-# Create the Sprite for Albert Einstein
+    movement()
 
-einstein_image = pygame.transform.scale(pygame.image.load('images/AlbertEinstein.png'), FIGURE_SIZE)
-einstein_sprite = einstein_image.get_rect()
-einstein_sprite.center = EINSTEIN_POSITION
+    draw_background_rect()
+    text = font.render('Brief an deine kleine Schwester!', True, TEXT_COLOR)
 
-# Einsteins letter to his little Sister
-
-letter_image = pygame.transform.scale(pygame.image.load('images/Letter.png'), tuple(item // 2 for item in FIGURE_SIZE))
-letter_sprite = letter_image.get_rect()
-letter_sprite.center = FIGURE_SIZE
-
-running2 = True
-
-while running2:
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_a]:
-            EINSTEIN_POS_X -= SPEED
-        elif keys[pygame.K_d]:
-            EINSTEIN_POS_X += SPEED
-
-        if keys[pygame.K_w]:
-            EINSTEIN_POS_Y -= SPEED
-        elif keys[pygame.K_s]:
-            EINSTEIN_POS_Y += SPEED
-
-    pygame.draw.rect(screen, BACKGROUND_COLOR, (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    einstein_sprite.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
-    screen.blit(letter_image, letter_sprite)
-    screen.blit(einstein_image, einstein_sprite)
+    einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
+    screen.blit(letter.image, letter.figure)
+    screen.blit(einstein.image, einstein.figure)
+    screen.blit(text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
     pygame.display.update()
 
-    text = font.render('Schreibe einen Brief an deine kleine Schwester', True, TEXT_COLOR)
-    screen.blit(text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
-
-    if einstein_sprite.colliderect(letter_sprite):
-        running2 = False
+    if einstein.figure.colliderect(letter.figure):
+        running1 = False
 
     fps_clock.tick()
 
-pygame.draw.rect(screen, BACKGROUND_COLOR, (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
-text = font.render('Drücke LEHRTASTE um fortzufahren:', True, TEXT_COLOR)
-einstein_sprite.center = SCREEN_CENTER
+draw_background_rect()
+einstein.figure.center = SCREEN_CENTER
 
 speach_image = pygame.image.load('images/Nachricht.png')
 speach_sprite = speach_image.get_rect()
 speach_sprite.center = (SCREEN_CENTER_X + 200, SCREEN_CENTER_Y - 125)
 
-screen.blit(continue_text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
-screen.blit(einstein_image, einstein_sprite)
+display_continue_text()
+screen.blit(einstein.image, einstein.figure)
 screen.blit(speach_image, speach_sprite)
 pygame.display.update()
 
-running3 = True
-
-while running3:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            running3 = False
+wait_until_space()
 
 # Display the Sprite for Adolf Hitler
 
-hitler_image = pygame.transform.scale(pygame.image.load('images/AdolfHitler.png'), FIGURE_SIZE)
-hitler_sprite = hitler_image.get_rect()
-hitler_sprite.center = SCREEN_CENTER
+hitler = Sprite('images/AdolfHitler.png', FIGURE_SIZE)
+hitler.figure.center = SCREEN_CENTER
 
 # GameLoop for the First Sequence
 
-running4 = True
+running2 = True
 
-while running4:
+while running2:
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running4 = False
+    movement()
 
-        keys = pygame.key.get_pressed()
+    draw_background_rect()
 
-        if keys[pygame.K_a]:
-            EINSTEIN_POS_X -= SPEED
-        elif keys[pygame.K_d]:
-            EINSTEIN_POS_X += SPEED
-
-        if keys[pygame.K_w]:
-            EINSTEIN_POS_Y -= SPEED
-        elif keys[pygame.K_s]:
-            EINSTEIN_POS_Y += SPEED
-
-    pygame.draw.rect(screen, BACKGROUND_COLOR, (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
-
-    einstein_sprite.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
-    screen.blit(einstein_image, einstein_sprite)
-    screen.blit(hitler_image, hitler_sprite)
+    einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
+    screen.blit(einstein.image, einstein.figure)
+    screen.blit(hitler.image, hitler.figure)
     pygame.display.update()
 
     fps_clock.tick()
 
 pygame.quit()
+sys.exit(0)
