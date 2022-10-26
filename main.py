@@ -111,6 +111,8 @@ einstein.figure.center = EINSTEIN_POSITION
 letter = Sprite('images/Letter.png', tuple(item // 1.5 for item in FIGURE_SIZE))
 letter.figure.center = FIGURE_SIZE
 
+text = font.render('Brief an deine kleine Schwester!', True, TEXT_COLOR)
+
 running1 = True
 
 while running1:
@@ -118,7 +120,6 @@ while running1:
     movement()
 
     draw_background_rect()
-    text = font.render('Brief an deine kleine Schwester!', True, TEXT_COLOR)
 
     einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
     screen.blit(letter.image, letter.figure)
@@ -156,16 +157,42 @@ hitler.figure.center = SCREEN_CENTER
 
 # GameLoop for the First Sequence
 
+text = font.render('Wandere in die USA aus!', True, TEXT_COLOR)
+kross_flag = Sprite('images/KreuzFlagge.png', FIGURE_SIZE)
+usa_flag = Sprite('images/USAFlagge.png', FIGURE_SIZE)
+
+stein = Sprite('images/Atompilz.png', tuple(item // 1.4 for item in FIGURE_SIZE))
+
+kross_flag.figure.center = FIGURE_SIZE
+usa_flag.figure.center = tuple(item - FIGURE_HEIGHT for item in SCREEN_SIZE)
+
+EINSTEIN_POS_X = FIGURE_WIDTH ** 2
+EINSTEIN_POS_Y = FIGURE_HEIGHT
+
 running2 = True
+hitler_pos_x = 0 - FIGURE_WIDTH / 2
 
 while running2:
     movement()
 
     draw_background_rect()
 
+    hitler_pos_x += 1
+
     einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
+    screen.blit(kross_flag.image, kross_flag.figure)
+    screen.blit(usa_flag.image, usa_flag.figure)
     screen.blit(einstein.image, einstein.figure)
+    screen.blit(text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
+
+    hitler.figure.center = (hitler_pos_x, SCREEN_CENTER_Y)
     screen.blit(hitler.image, hitler.figure)
+
+    stein.figure.center = (FIGURE_WIDTH, SCREEN_HEIGHT / 3)
+    screen.blit(stein.image, stein.figure)
+    stein.figure.center = (SCREEN_WIDTH / 2, FIGURE_HEIGHT)
+    screen.blit(stein.image, stein.figure)
+
     pygame.display.update()
 
     fps_clock.tick()
