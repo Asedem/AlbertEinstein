@@ -135,13 +135,11 @@ while running1:
 draw_background_rect()
 einstein.figure.center = SCREEN_CENTER
 
-speach_image = pygame.image.load('images/Nachricht.png')
-speach_sprite = speach_image.get_rect()
-speach_sprite.center = (SCREEN_CENTER_X + 200, SCREEN_CENTER_Y - 125)
+written_letter = Sprite('images/LetterWritten.png', (600, 600))
+written_letter.figure.center = (SCREEN_CENTER_X, SCREEN_CENTER_Y - FIGURE_HEIGHT / 2)
+screen.blit(written_letter.image, written_letter.figure)
 
 display_continue_text()
-screen.blit(einstein.image, einstein.figure)
-screen.blit(speach_image, speach_sprite)
 pygame.display.update()
 
 wait_until_space()
@@ -161,23 +159,37 @@ text = font.render('Wandere in die USA aus!', True, TEXT_COLOR)
 kross_flag = Sprite('images/KreuzFlagge.png', FIGURE_SIZE)
 usa_flag = Sprite('images/USAFlagge.png', FIGURE_SIZE)
 
-stein = Sprite('images/Atompilz.png', tuple(item // 1.4 for item in FIGURE_SIZE))
+stones = []
+for i in range(0, 4):
+    stones.append(Sprite('images/Stone.png', tuple(item // 1.4 for item in FIGURE_SIZE)))
 
 kross_flag.figure.center = FIGURE_SIZE
 usa_flag.figure.center = tuple(item - FIGURE_HEIGHT for item in SCREEN_SIZE)
 
-EINSTEIN_POS_X = FIGURE_WIDTH ** 2
+EINSTEIN_POS_X = FIGURE_WIDTH * 2
 EINSTEIN_POS_Y = FIGURE_HEIGHT
 
 running2 = True
 hitler_pos_x = 0 - FIGURE_WIDTH / 2
 
 while running2:
+
+    if einstein.figure.colliderect(hitler.figure) or einstein.figure.colliderect(kross_flag.figure):
+        EINSTEIN_POS_X = FIGURE_WIDTH * 2
+        EINSTEIN_POS_Y = FIGURE_HEIGHT
+
+    for stone in stones:
+        if einstein.figure.colliderect(stone.figure):
+            EINSTEIN_POS_X = FIGURE_WIDTH * 2
+            EINSTEIN_POS_Y = FIGURE_HEIGHT
+
     movement()
 
     draw_background_rect()
 
-    hitler_pos_x += 1
+    hitler_pos_x += 0.5
+    if hitler_pos_x > SCREEN_WIDTH + FIGURE_WIDTH // 2:
+        hitler_pos_x = 0 - FIGURE_WIDTH // 2
 
     einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
     screen.blit(kross_flag.image, kross_flag.figure)
@@ -188,12 +200,19 @@ while running2:
     hitler.figure.center = (hitler_pos_x, SCREEN_CENTER_Y)
     screen.blit(hitler.image, hitler.figure)
 
-    stein.figure.center = (FIGURE_WIDTH, SCREEN_HEIGHT / 3)
-    screen.blit(stein.image, stein.figure)
-    stein.figure.center = (SCREEN_WIDTH / 2, FIGURE_HEIGHT)
-    screen.blit(stein.image, stein.figure)
+    stones[1].figure.center = (FIGURE_WIDTH, SCREEN_HEIGHT / 3)
+    screen.blit(stones[1].image, stones[1].figure)
+    stones[2].figure.center = (SCREEN_WIDTH - FIGURE_WIDTH, SCREEN_HEIGHT / 2.6)
+    screen.blit(stones[2].image, stones[2].figure)
+    stones[3].figure.center = (SCREEN_WIDTH / 2, FIGURE_HEIGHT)
+    screen.blit(stones[3].image, stones[3].figure)
+    stones[0].figure.center = (SCREEN_WIDTH / 2.8, SCREEN_HEIGHT - FIGURE_HEIGHT * 2)
+    screen.blit(stones[0].image, stones[0].figure)
 
     pygame.display.update()
+
+    if einstein.figure.colliderect(usa_flag.figure):
+        running2 = False
 
     fps_clock.tick()
 
