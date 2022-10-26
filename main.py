@@ -133,7 +133,6 @@ while running1:
     fps_clock.tick()
 
 draw_background_rect()
-einstein.figure.center = SCREEN_CENTER
 
 written_letter = Sprite('images/LetterWritten.png', (600, 600))
 written_letter.figure.center = (SCREEN_CENTER_X, SCREEN_CENTER_Y - FIGURE_HEIGHT / 2)
@@ -215,6 +214,17 @@ while running2:
         running2 = False
 
     fps_clock.tick()
+
+draw_background_rect()
+
+text_1933 = Sprite('images/1933.png', (600, 600))
+text_1933.figure.center = (SCREEN_CENTER_X, SCREEN_CENTER_Y)
+screen.blit(text_1933.image, text_1933.figure)
+
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
 
 pygame.quit()
 sys.exit(0)
