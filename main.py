@@ -2,6 +2,8 @@ import sys
 
 import pygame
 
+from time import sleep
+
 from custom import Sprite
 
 # Insert the important global variables
@@ -65,6 +67,19 @@ def display_continue_text():
 def display_year(year):
 
     display_text = font.render('Jahr: ' + str(year), True, TEXT_COLOR)
+
+    draw_background_rect()
+    screen.blit(display_text,
+                (SCREEN_CENTER_X - display_text.get_width() / 2, SCREEN_CENTER_Y - display_text.get_height() / 2))
+
+    display_continue_text()
+    pygame.display.update()
+    wait_until_space()
+
+
+def display_text(text_to_display):
+
+    display_text = font.render(str(text_to_display), True, TEXT_COLOR)
 
     draw_background_rect()
     screen.blit(display_text,
@@ -152,7 +167,7 @@ display_year(1933)
 hitler = Sprite('images/AdolfHitler.png', FIGURE_SIZE)
 hitler.figure.center = SCREEN_CENTER
 
-# GameLoop for the First Sequence
+# GameLoop for the flee Sequence
 
 text = font.render('Wandere in die USA aus!', True, TEXT_COLOR)
 kross_flag = Sprite('images/KreuzFlagge.png', FIGURE_SIZE)
@@ -215,16 +230,160 @@ while running2:
 
     fps_clock.tick()
 
+# Display cut text
+
 draw_background_rect()
 
 text_1933 = Sprite('images/1933.png', (600, 600))
-text_1933.figure.center = (SCREEN_CENTER_X, SCREEN_CENTER_Y)
+text_1933.figure.center = SCREEN_CENTER
 screen.blit(text_1933.image, text_1933.figure)
 
 display_continue_text()
 pygame.display.update()
 
 wait_until_space()
+
+# Display the number of the current Year
+
+display_year(1939)
+
+# Display 2nd cut text
+
+draw_background_rect()
+
+text_1939 = Sprite('images/1939.png', (600, 600))
+text_1939.figure.center = SCREEN_CENTER
+screen.blit(text_1939.image, text_1939.figure)
+
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+# GameLoop for the constructing Sequence
+
+text = font.render('Konstruiere die Atombombe!', True, TEXT_COLOR)
+atombombe1 = Sprite('images/Atombombe1.png', FIGURE_SIZE)
+atombombe2 = Sprite('images/Atombombe2.png', FIGURE_SIZE)
+atombombe3 = Sprite('images/Atombombe3.png', FIGURE_SIZE)
+
+atombombe1.figure.center = (FIGURE_WIDTH, SCREEN_HEIGHT / 3)
+atombombe2.figure.center = (SCREEN_WIDTH - FIGURE_WIDTH, SCREEN_HEIGHT / 2.6)
+atombombe3.figure.center = (SCREEN_WIDTH / 2, FIGURE_HEIGHT)
+
+EINSTEIN_POS_X = SCREEN_CENTER_X
+EINSTEIN_POS_Y = SCREEN_CENTER_Y
+
+collected1 = False
+collected2 = False
+collected3 = False
+
+running3 = True
+
+while running3:
+
+    movement()
+
+    draw_background_rect()
+    pygame.draw.rect(screen, (255, 255, 255), (SCREEN_WIDTH - FIGURE_WIDTH, 0, FIGURE_WIDTH, FIGURE_HEIGHT))
+
+    einstein.figure.center = (EINSTEIN_POS_X, EINSTEIN_POS_Y)
+    screen.blit(einstein.image, einstein.figure)
+    screen.blit(text, (SCREEN_CENTER_X - text.get_width() / 2, (SCREEN_CENTER_Y - text.get_height() / 2) + 300))
+
+    if einstein.figure.colliderect(atombombe1.figure):
+        collected1 = True
+        atombombe1.figure.center = (SCREEN_WIDTH - FIGURE_WIDTH / 2, FIGURE_HEIGHT / 2)
+    elif einstein.figure.colliderect(atombombe2.figure):
+        collected2 = True
+        atombombe2.figure.center = (SCREEN_WIDTH - FIGURE_WIDTH / 2, FIGURE_HEIGHT / 2)
+    elif einstein.figure.colliderect(atombombe3.figure):
+        collected3 = True
+        atombombe3.figure.center = (SCREEN_WIDTH - FIGURE_WIDTH / 2, FIGURE_HEIGHT / 2)
+
+    screen.blit(atombombe1.image, atombombe1.figure)
+    screen.blit(atombombe2.image, atombombe2.figure)
+    screen.blit(atombombe3.image, atombombe3.figure)
+
+    pygame.display.update()
+
+    if collected1 and collected2 and collected3:
+        running3 = False
+
+    fps_clock.tick()
+
+pygame.draw.rect(screen, BACKGROUND_COLOR, (0, SCREEN_HEIGHT - SCREEN_WIDTH // 4, SCREEN_WIDTH, SCREEN_WIDTH // 4))
+
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+display_year(1945)
+
+hiroshima = Sprite('images/Hiroshima.png', SCREEN_SIZE)
+hiroshima.figure.center = SCREEN_CENTER
+atombombe = Sprite('images/Atombombe.png', FIGURE_SIZE)
+atombombe.figure.center = SCREEN_CENTER
+atompilz = Sprite('images/Atompilz.png', FIGURE_SIZE)
+atompilz.figure.center = (SCREEN_CENTER_X, SCREEN_CENTER_Y - FIGURE_HEIGHT / 2)
+
+draw_background_rect()
+screen.blit(hiroshima.image, hiroshima.figure)
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+draw_background_rect()
+screen.blit(hiroshima.image, hiroshima.figure)
+screen.blit(atombombe.image, atombombe.figure)
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+draw_background_rect()
+screen.blit(hiroshima.image, hiroshima.figure)
+screen.blit(atombombe.image, atombombe.figure)
+screen.blit(atompilz.image, atompilz.figure)
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+# Display 3rd cut text
+
+draw_background_rect()
+
+text_1945 = Sprite('images/1945.png', (600, 600))
+text_1945.figure.center = SCREEN_CENTER
+screen.blit(text_1945.image, text_1945.figure)
+
+display_continue_text()
+pygame.display.update()
+
+wait_until_space()
+
+# display the end text
+
+display_text('Ende')
+
+# Display the end picture
+
+end = Sprite('images/Zitat.png', SCREEN_SIZE)
+end.figure.center = SCREEN_CENTER
+
+running4 = True
+
+while running4:
+
+    screen.blit(end.image, end.figure)
+    pygame.display.update()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running4 = False
 
 pygame.quit()
 sys.exit(0)
