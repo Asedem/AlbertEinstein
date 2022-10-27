@@ -1,8 +1,8 @@
+#!/usr/bin/env python3
+
 import sys
 
 import pygame
-
-from time import sleep
 
 from custom import Sprite
 
@@ -31,14 +31,14 @@ def movement():
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a] and EINSTEIN_POS_X - SPEED > 0 + FIGURE_WIDTH / 2:
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and EINSTEIN_POS_X - SPEED > 0 + FIGURE_WIDTH / 2:
             EINSTEIN_POS_X -= SPEED
-        elif keys[pygame.K_d] and EINSTEIN_POS_X + SPEED < SCREEN_WIDTH - FIGURE_WIDTH / 2:
+        elif (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and EINSTEIN_POS_X + SPEED < SCREEN_WIDTH - FIGURE_WIDTH / 2:
             EINSTEIN_POS_X += SPEED
 
-        if keys[pygame.K_w] and EINSTEIN_POS_Y - SPEED > 0 + FIGURE_HEIGHT / 2:
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and EINSTEIN_POS_Y - SPEED > 0 + FIGURE_HEIGHT / 2:
             EINSTEIN_POS_Y -= SPEED
-        elif keys[pygame.K_s] and EINSTEIN_POS_Y + SPEED < SCREEN_HEIGHT - FIGURE_HEIGHT / 2:
+        elif (keys[pygame.K_s] or keys[pygame.K_DOWN]) and EINSTEIN_POS_Y + SPEED < SCREEN_HEIGHT - FIGURE_HEIGHT / 2:
             EINSTEIN_POS_Y += SPEED
 
 
@@ -201,7 +201,7 @@ while running2:
 
     draw_background_rect()
 
-    hitler_pos_x += 0.5
+    hitler_pos_x += 0.2
     if hitler_pos_x > SCREEN_WIDTH + FIGURE_WIDTH // 2:
         hitler_pos_x = 0 - FIGURE_WIDTH // 2
 

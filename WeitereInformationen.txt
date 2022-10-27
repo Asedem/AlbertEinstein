@@ -1,0 +1,28 @@
+Anleitung:
+- Weiter geht es immer mit Leertaste
+- Die Steuerung von Einstein findet mit W, A, S, D oder mit den Pfeiltasten statt
+  (Die Steuerung mit den Pfeiltasten hat den Nachteil, dass man die Tasten nicht gedrückt halten kann.)
+
+Weitere Informationen:
+Ich hätte die Information unglaublich gerne detaillierter dargestellt, allerdings hat dafür die Zeit
+leider nicht ausgereicht. Deswegen habe ich es im Spiel bei den wichtigsten Informationen belassen.
+Ich habe den Source code des Projekts veröffentlicht, um beweisen zu können, dass dieser auch wirklich
+von mir geschrieben wurde. Er ist unter https://github.com/Asedem/AlbertEinstein/ zu finden.
+
+Zusammenfassung:
+Albert Einstein, der selber Jude war, ahnte schon 1922, dass sich düstere Zeiten anbahnen würden und
+formulierte dies auch so in einen Brief an seine kleine Schwester. In den nächsten Jahren versuchte er
+dann auch befreundete und bekannte Physiker davon zu überzeugen, allerdings ohne Erfolg. Aus diesem
+Grund wanderte er dann an 17. Oktober 1933 alleine aus Deutschland aus. Er verbrachte vorerst einige
+Monate in Belgien, bevor er dann schuss endlich in die USA auswanderte. Er war überzeugt davon, dass
+Hitler dabei var zu versuchen die Atombombe zu entwickeln. Allerdings tauchte er vorerst unter und hielt
+sich zurück. Doch als Nazi-Deutschland 1939 mit dem Angriff auf Polen und wenig später auch mit dem
+Millionenfachen Völkermord an Juden begann, wurden seine Bedenken zu groß. Er stellte einen antrag an
+die Regierung das amerikanische Atomwaffenprogramm voranzutreiben und auch selber daran mitwirken
+zu dürfen. Die Regierung misstraute ihm allerdings, da er auch Deutschland gekommen ist, bis er
+schließlich 1940 seinen Schwur ablegte Amerika auf ewig sein Treue zu leisten und die amerikanische
+Staatsbürgerschaft bekam. Als wissenschaftler wirkte, Albert Einstein aktiv am bau der ersten Atombomben
+mit. Nachdem die erste Explosion einer Atombombe in Hiroshima 1945 tausende an Leben verlangte kamen
+bei ihm die Schuldgefühle hoch und er widmete den Rest seines Lebens dem Kampf gegen Atomwaffen.
+Er gründete sogar das "Emergency Committee of Atomic Scientists" (Notfall-Komitee der Atom Wissenschaftler).
+Dieses führte er auch an, bis er schlussendlich 1955 verstarb.
