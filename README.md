@@ -1,5 +1,7 @@
 # Albert Einstein
 
+<img src="https://img.shields.io/badge/Made%20with-python-orange?style=for-the-badge&logo=Python&logoColor=white" alt="Made with Python">
+
 <hr>
 
 ### English
